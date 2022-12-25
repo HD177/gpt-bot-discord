@@ -1,8 +1,5 @@
 // Require the necessary discord.js classes
-const fs = require('node:fs');
-const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
 const dotenv = require('dotenv');
 
 // Load environment variables from .env file
@@ -22,12 +19,10 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-let prompt = `This is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\n`;
-
 client.on("messageCreate", function (message) {
   if (message.author.bot) return;
-  prompt += `You: ${message.content}\n`;
- (async () => {
+  let prompt += `You: ${message.content}\n`;
+  (async () => {
        const gptResponse = await openai.createCompletion({
            model: "text-davinci-003",
            prompt: prompt,
