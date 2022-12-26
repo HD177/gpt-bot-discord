@@ -8,16 +8,17 @@ dotenv.config();
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-
+// Sets up OpenAI API with credentials
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
+// On message event, take input as prompt and generate response
 client.on("messageCreate", function (message) {
   if (message.author.bot) return;
-  let prompt += `You: ${message.content}\n`;
+  let prompt = message.content;
   (async () => {
        const gptResponse = await openai.createCompletion({
            model: "text-davinci-003",
