@@ -21,6 +21,8 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+let responseLength = 250; //TODO make this configurable at some point
+
 // On message event, take input as prompt and generate response
 client.on("messageCreate", function (message) {
     if (message.channel.name !== 'gpt-gen') {
@@ -36,7 +38,7 @@ client.on("messageCreate", function (message) {
             const gptResponse = await openai.createCompletion({
                 model: "text-davinci-003",
                 prompt: prompt,
-                max_tokens: 60,
+                max_tokens: responseLength,
                 temperature: 0.3,
                 //  top_p: 0.3,
                 presence_penalty: 0,
