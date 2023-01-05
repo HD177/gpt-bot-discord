@@ -22,9 +22,6 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // On message event, take input as prompt and generate response
-
-
-
 client.on("messageCreate", function (message) {
     if (message.channel.name !== 'gpt-gen') {
     return;
